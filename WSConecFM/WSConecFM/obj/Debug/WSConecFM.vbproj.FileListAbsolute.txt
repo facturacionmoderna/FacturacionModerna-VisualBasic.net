@@ -1,0 +1,5 @@
+C:\FacturacionModernaVB\WSConecFM\WSConecFM\bin\Debug\WSConecFM.dll.config
+C:\FacturacionModernaVB\WSConecFM\WSConecFM\bin\Debug\WSConecFM.dll
+C:\FacturacionModernaVB\WSConecFM\WSConecFM\bin\Debug\WSConecFM.pdb
+C:\FacturacionModernaVB\WSConecFM\WSConecFM\obj\Debug\WSConecFM.dll
+C:\FacturacionModernaVB\WSConecFM\WSConecFM\obj\Debug\WSConecFM.pdb
