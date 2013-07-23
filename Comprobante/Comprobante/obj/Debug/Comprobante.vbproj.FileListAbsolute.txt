@@ -1,4 +1,0 @@
-C:\FacturacionModernaVB\Comprobante\Comprobante\bin\Debug\Comprobante.dll
-C:\FacturacionModernaVB\Comprobante\Comprobante\bin\Debug\Comprobante.pdb
-C:\FacturacionModernaVB\Comprobante\Comprobante\obj\Debug\Comprobante.dll
-C:\FacturacionModernaVB\Comprobante\Comprobante\obj\Debug\Comprobante.pdb

@@ -1,18 +1,4 @@
-﻿'''***************************************************************************
-'* Descripción: Ejemplo del uso de la clase WSConecFM de Facturacion Moderna para el
-'* Timbrado y cancelacion de un comprobante generando un
-'* archivo XML de un CFDI 3.2 y enviandolo a certificar.
-'*
-'* Nota: Esté ejemplo pretende ilustrar de manera general el proceso de sellado y
-'* timbrado de un XML que cumpla con los requerimientos del SAT.
-'*
-'* Facturación Moderna :  http://www.facturacionmoderna.com
-'* @author Benito Arango <benito.arango@facturacionmoderna.com>
-'* @version 1.0
-'*
-'*****************************************************************************
-
-Imports System.Collections.Generic
+﻿Imports System.Collections.Generic
 Imports System.ComponentModel
 Imports System.Data
 Imports System.Drawing
@@ -22,130 +8,203 @@ Imports System.Threading.Tasks
 Imports System.Windows.Forms
 Imports Comprobante
 Imports WSConecFM
+Imports System.IO
+Imports System
+
+' NOTAS
+'     * *    Todas las peticiones a los metodos de los Dlls retornan un objeto de tipo Resultados
+'     * *    que contiene los siguientes atributos:
+'     * *    1.- code; Codigo de error
+'     * *    2.- message; Mensaje de error, mensaje de exito o resultado
+'     * *    3.- status; solo toma los valores de True o False
+'     * *    4.- ncert; contiene el numero de certificado, solo en algunos casos
+' 
 
 Public Class Form1
 
+  ''' <summary>
+  ''' Metodo para generar el comprobante fiscal
+  ''' </summary>
   Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
     ' Especificación de rutas especificas
     Dim keyfile As String = "C:\FacturacionModernaVB\utilerias\certificados\20001000000200000192.key"
     Dim certfile As String = "C:\FacturacionModernaVB\utilerias\certificados\20001000000200000192.cer"
     Dim password As String = "12345678a"
-    Dim xsltfile As String = "C:\FacturacionModernaVB\utilerias\xslt32\cadenaoriginal_3_2.xslt"
-    Dim xmlfile As String = TextBox1.Text
-    Dim originalPath As String = "C:\FacturacionModernaVB\resultados\cadenaOriginal.txt"
+    Dim version As String = "3.2"
+    Dim xmlfile As String = TextBox1.Text()
     Dim path As String = "C:\FacturacionModernaVB\resultados"
-    Dim numCert As String = "20001000000200000192"
 
-    ' Generar la cadena original
-    ' Crear instancias de la clase cadena
+    Cursor.Current = Cursors.WaitCursor
+    Dim r_comprobante As New Comprobante.Resultados()
+    Dim r_wsconect As New WSConecFM.Resultados()
+
+    ' GENERAR CADENA ORIGINAL
+    '             * *    Los paramteros enviado son:
+    '             * *    1.- version del comprobante
+    '             * *    2.- xml (Puede ser una cadena o una ruta)
+    '             * Retorna la cadena original en r_comprobante.message
+    '            
+
     Dim cadena As New Cadena()
-    'Llamar la funcion generar cadena, (Regresa un arreglo, status y mensaje), enviando como parametros:
-    ' 1.- Ruta del archivo xslt, el cual contiene el esquema de la cadena original
-    ' 2.- Ruta del archivo xml, del cual se tomaran los datos para generar la cadena original
-    ' 3.- Ruta donde se guardará el archivo de la cadena original
-    Dim r_cadena As String() = cadena.GeneraCadena(xsltfile, xmlfile, originalPath)
-    If r_cadena(0) = "1" Then
-      MessageBox.Show(r_cadena(1))
-      Me.Close()
+    r_comprobante = cadena.GeneraCadena(version, xmlfile)
+    If Not r_comprobante.status Then
+      MessageBox.Show(r_comprobante.message)
+      Close()
     End If
+    Dim cadenaO As String = r_comprobante.message
 
-    ' Generar el sello del comprobante
-    ' Crear instancia de la clase Sello
+    ' GENERAR EL SELLO DEL COMPROBANTE
+    '             * *    Los parametros enviado son:
+    '             * *    1.- archivo de llave privada (.key)
+    '             * *    2.- Contraseña del archivo de llave privada
+    '             * *    3.- Cadena Original (Puede ser una cadena o una ruta)
+    '             * Retorna el sello en r_comprobante.message
+    '            
+
     Dim sello As New Sello()
-    'Llamar la funcion generar sello, (Regresa un arreglo, status y mensaje), enviando como parametros:
-    ' 1.- Ruta de archivo de llave privada (.key)
-    ' 2.- Contraseña del archivo de llave privada
-    ' 3.- Ruta del archivo que contiene la cadena original
-    Dim r_sello As String() = sello.GeneraSello(keyfile, password, originalPath)
-    If r_sello(0) = "1" Then
-      MessageBox.Show(r_sello(1))
-      Me.Close()
+    r_comprobante = sello.GeneraSello(keyfile, password, cadenaO)
+    If Not r_comprobante.status Then
+      MessageBox.Show(r_comprobante.message)
+      Close()
     End If
-    Dim str_sello As String = r_sello(1)
+    Dim str_sello As String = r_comprobante.message
 
-    ' Obtener el contenido del certificado
-    ' Extrae el contenido del certificado (.cer)
-    ' Enviar como parametro la ruta del archivo del certificado
-    Dim r_certificado As String() = sello.obtenCertificado(certfile)
-    If r_certificado(0) = "1" Then
-      MessageBox.Show(r_certificado(1))
-      Me.Close()
+    '  OBTENER LA INFORMACION DEL CERTIFICADO
+    '             * *    Los parametros enviados son:
+    '             * *    1.- Ruta del certificado
+    '             * Retorna el numero de certificado en r_comprobante.ncert
+    '             * Retorna el certificado en base 64 en r_comprobante.message
+    '            
+
+    r_comprobante = sello.obtenCertificado(certfile)
+    If Not r_comprobante.status Then
+      MessageBox.Show(r_comprobante.message)
+      Close()
     End If
-    Dim str_certificado As String = r_certificado(1)
+    Dim cert_b64 As String = r_comprobante.message
+    Dim cert_No As String = r_comprobante.ncert
 
-    ' Agregar el sello generado al comprobante
-    ' Los parametros son:
-    ' 1.- Ruta del archivo XML
-    ' 2.- Cadena del sello digital
-    ' 3.- Cadena del certificado
-    ' 4.- Número de certificado (.cer)
-    Dim r_agregasello As String() = sello.agregaSello(xmlfile, str_sello, str_certificado, numCert)
-    If r_agregasello(0) = "1" Then
-      MessageBox.Show(r_agregasello(1))
-      Me.Close()
+    '  AGREGAR LA INFORMACION DEL SELLO AL XML
+    '             * *    Los parametros enviados son:
+    '             * *    1.- Xml (Puede ser una cadena o una ruta)
+    '             * *    2.- Sello del comprobante
+    '             * *    3.- Certificado codificado en base 64
+    '             * *    4.- Numero de certificado
+    '             * Retorna el XML en r_comprobante.message
+    '            
+
+    Dim objReader As New StreamReader(xmlfile, Encoding.UTF8)
+    xmlfile = objReader.ReadToEnd()
+    objReader.Close()
+    r_comprobante = sello.agregaSello(xmlfile, str_sello, cert_b64, cert_No)
+    If Not r_comprobante.status Then
+      MessageBox.Show(r_comprobante.message)
+      Application.[Exit]()
     End If
+    xmlfile = r_comprobante.message
 
-    ' Crear instancia a la clase de timbrado
-    Dim conex As New Timbrado()
+    '  CREAR LA CONFIGURACION DE CONEXION CON EL SERVICIO SOAP
+    '             * *    Los parametros configurables son:
+    '             * *    1.- string UserID; Nombre de usuario que se utiliza para la conexion con SOAP
+    '             * *    2.- string UserPass; Contraseña del usuario para conectarse a SOAP
+    '             * *    3.- string emisorRFC; RFC del contribuyente
+    '             * *    4.- Boolean generarCBB; Indica si se desea generar el CBB
+    '             * *    5.- Boolean generarTXT; Indica si se desea generar el TXT
+    '             * *    6.- Boolean generarPDF; Indica si se desea generar el PDF
+    '             * *    7.- string urlTimbrado; URL de la conexion con SOAP
+    '             * La configuracion inicial es para el ambiente de pruebas
+    '            
 
-    ' Crear instancia a requestTimbrarCFDI, Regresa los parametros necesarios para poder realziar la conexion SOAP (Ya cuenta con los parametros necesarios para la conexion)
-    ' Los posibles valores son:
-    ' string text2CFDI: Archivo XML codificado en base 64 para ser timbrado
-    ' string UserID: Nombre de usuario para conexion con SOAP
-    ' string UserPass: Contraseña de usuario para conexion con SOAP
-    ' string emisorRFC: RFC del emisor
-    ' Boolean generarCBB: Retorna el Codigo de Barras Bidimension, Si esta es TRUE, generarPDF y generarTXT se convierten en FALSE
-    ' Boolean generarTXT: Retorna el comprobante en TXT
-    ' Boolean generarPDF: Retorna el comprobante en PDF
-    ' string urltimbrado: URL de acceso al servisio SOAP
     Dim reqt As New requestTimbrarCFDI()
-    ' Para cambiar un valor hacer lo del siguiente ejemplo:
-    ' reqt.generarPDF = true;
+    '
+    '             * Si desea cambiar alguna configuracion realizarla solo realizar lo siguiente
+    '             * reqt.generarPDF = true;  Por poner un ejemplo
+    '            
 
-    ' Ejecutar Timbrado del comprobante
-    Dim r_timbrar As String() = conex.Timbrar(xmlfile, reqt, path)
-    MessageBox.Show(r_timbrar(1))
 
-    ' Fin de Timbrado
-    Me.Close()
+    '  TIMBRAR XML
+    '             * *    Los parametros enviados son:
+    '             * *    1.- XML; (Acepta una ruta o una cadena)
+    '             * *    2.- Objeto con las configuraciones de conexion con SOAP
+    '             * Retorna un objeto con los siguientes valores codificado en base 64:
+    '             * *    1.- xml en base 64
+    '             * *    2.- pdf en base 64
+    '             * *    3.- png en base 64
+    '             * *    4.- txt en base 64
+    '             * Los valores de retorno van a depender de la configuracion enviada a la función
+    '             
+
+    Dim timbra As New Timbrado()
+    r_wsconect = timbra.Timbrar(xmlfile, reqt)
+    If Not r_wsconect.status Then
+      MessageBox.Show(r_wsconect.message)
+      Close()
+    End If
+    Dim stream As New FileStream(path & "\" & r_wsconect.uuid & ".xml", FileMode.Create, FileAccess.Write)
+    Dim writer As New StreamWriter(stream)
+    writer.WriteLine(Convert.FromBase64String(r_wsconect.xmlBase64))
+    writer.Close()
+    If reqt.generarCBB Then
+      Dim streamcbb As New FileStream(path & "\" & r_wsconect.uuid & ".png", FileMode.Create, FileAccess.Write)
+      Dim writercbb As New StreamWriter(streamcbb)
+      writercbb.WriteLine(Convert.FromBase64String(r_wsconect.cbbBase64))
+      writercbb.Close()
+    End If
+    If reqt.generarPDF Then
+      Dim streampdf As New FileStream(path & "\" & r_wsconect.uuid & ".pdf", FileMode.Create, FileAccess.Write)
+      Dim writerpdf As New StreamWriter(streampdf)
+      writerpdf.WriteLine(Convert.FromBase64String(r_wsconect.pdfBase64))
+      writerpdf.Close()
+    End If
+    If reqt.generarTXT Then
+      Dim streamtxt As New FileStream(path & "\" & r_wsconect.uuid & ".txt", FileMode.Create, FileAccess.Write)
+      Dim writertxt As New StreamWriter(streamtxt)
+      writertxt.WriteLine(Convert.FromBase64String(r_wsconect.txtBase64))
+      writertxt.Close()
+    End If
+
+    MessageBox.Show("Comprobante guardado en " & path & "\")
+    Cursor.Current = Cursors.[Default]
+    Close()
   End Sub
 
+  ''' <summary>
+  ''' Generacion de comprobante mediante un Layout
+  ''' </summary>
   Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    Cursor.Current = Cursors.WaitCursor
     Dim layoutFile As String = TextBox2.Text
     Dim path As String = "C:\FacturacionModernaVB\resultados"
-
-    ' Crear instancia a la clase de timbrado
-    Dim conex As New Timbrado()
+    Dim r_wsconect As New WSConecFM.Resultados()
 
     ' Crear instancia, para los para metros enviados a requestTimbradoCFDI
     Dim reqt As New requestTimbrarCFDI()
 
-    ' Ejecutar Timbrado del comprobante
-    Dim r_timbrar As String() = conex.Timbrar(layoutFile, reqt, path)
-    MessageBox.Show(r_timbrar(1))
+    Dim timbra As New Timbrado()
+    r_wsconect = timbra.Timbrar(layoutFile, reqt)
+    Dim stream As New FileStream(path & "\" & r_wsconect.uuid & ".xml", FileMode.Create, FileAccess.Write)
+    Dim writer As New StreamWriter(stream)
+    writer.WriteLine(Convert.FromBase64String(r_wsconect.xmlBase64))
+    writer.Close()
 
-    ' Fin de Timbrado
-    Me.Close()
+    MessageBox.Show("Comprobante guardado en " & path & "\")
+    Cursor.Current = Cursors.[Default]
+    Close()
   End Sub
 
   Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-    ' Cancelar un comprobante por medio de su UUID
-    ' Crear la instancia de la clase Cancelado
-    Dim conex As New Cancelado()
-    ' Crear instancia a requestCancelarCFDI, Regresa los parametros necesarios para poder realziar la conexion SOAP (Ya cuenta con los parametros necesarios para la conexion)
-    ' Los posibles valores son:
-    ' string UserID: Nombre de usuario para conexion con SOAP
-    ' string UserPass: Contraseña de usuario para conexion con SOAP
-    ' string emisorRFC: RFC del emisor
-    ' Boolean uuid: UUID que se va a cancelar
-    ' string urlcancelado: URL de acceso al servisio SOAP
+    Cursor.Current = Cursors.WaitCursor
+    Dim uuid As String = TextBox3.Text
+
+    Dim r_wsconect As New WSConecFM.Resultados()
+
     Dim reqc As New requestCancelarCFDI()
-    reqc.uuid = TextBox3.Text
 
-    ' Ejecutar Cancelado del comprobante
-    Dim r_cancelar As String() = conex.Cancelar(reqc)
-    MessageBox.Show(r_cancelar(1))
+    Dim conex As New Cancelado()
+    r_wsconect = conex.Cancelar(reqc, uuid)
 
-    Me.Close()
+    MessageBox.Show(r_wsconect.message)
+    Cursor.Current = Cursors.[Default]
+    Close()
   End Sub
 End Class

@@ -46,8 +46,9 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Comprobante">
-      <HintPath>..\..\..\..\..\..\FacturacionModernaVB\Comprobante\Comprobante\bin\Debug\Comprobante.dll</HintPath>
+    <Reference Include="Comprobante, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FacturacionModernaCSharp\Comprobante\Comprobante\bin\Debug\Comprobante.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -58,8 +59,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="WSConecFM">
-      <HintPath>..\..\..\..\..\..\FacturacionModernaVB\WSConecFM\WSConecFM\bin\Debug\WSConecFM.dll</HintPath>
+    <Reference Include="WSConecFM, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FacturacionModernaCSharp\WSConecFM\WSConecFM\bin\Debug\WSConecFM.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

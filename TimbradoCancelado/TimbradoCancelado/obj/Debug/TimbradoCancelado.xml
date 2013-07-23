@@ -6,7 +6,15 @@ TimbradoCancelado
 </name>
 </assembly>
 <members>
-<member name="P:TimbradoCancelado.My.Resources.Resources.ResourceManager">
+<member name="M:TimbradoCancelado.Form1.Button1_Click(System.Object,System.EventArgs)">
+	<summary>
+ Metodo para generar el comprobante fiscal
+ </summary>
+</member><member name="M:TimbradoCancelado.Form1.Button2_Click(System.Object,System.EventArgs)">
+	<summary>
+ Generacion de comprobante mediante un Layout
+ </summary>
+</member><member name="P:TimbradoCancelado.My.Resources.Resources.ResourceManager">
 	<summary>
   Returns the cached ResourceManager instance used by this class.
 </summary>
