@@ -48,7 +48,7 @@
   <ItemGroup>
     <Reference Include="Comprobante, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\FacturacionModernaCSharp\Comprobante\Comprobante\bin\Debug\Comprobante.dll</HintPath>
+      <HintPath>..\..\utilerias\referencias\Comprobante.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -61,7 +61,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="WSConecFM, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\FacturacionModernaCSharp\WSConecFM\WSConecFM\bin\Debug\WSConecFM.dll</HintPath>
+      <HintPath>..\..\utilerias\referencias\WSConecFM.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

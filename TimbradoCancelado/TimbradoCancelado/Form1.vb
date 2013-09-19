@@ -140,28 +140,12 @@ Public Class Form1
       MessageBox.Show(r_wsconect.message)
       Close()
     End If
-    Dim stream As New FileStream(path & "\" & r_wsconect.uuid & ".xml", FileMode.Create, FileAccess.Write)
-    Dim writer As New StreamWriter(stream)
-    writer.WriteLine(Convert.FromBase64String(r_wsconect.xmlBase64))
-    writer.Close()
-    If reqt.generarCBB Then
-      Dim streamcbb As New FileStream(path & "\" & r_wsconect.uuid & ".png", FileMode.Create, FileAccess.Write)
-      Dim writercbb As New StreamWriter(streamcbb)
-      writercbb.WriteLine(Convert.FromBase64String(r_wsconect.cbbBase64))
-      writercbb.Close()
-    End If
-    If reqt.generarPDF Then
-      Dim streampdf As New FileStream(path & "\" & r_wsconect.uuid & ".pdf", FileMode.Create, FileAccess.Write)
-      Dim writerpdf As New StreamWriter(streampdf)
-      writerpdf.WriteLine(Convert.FromBase64String(r_wsconect.pdfBase64))
-      writerpdf.Close()
-    End If
-    If reqt.generarTXT Then
-      Dim streamtxt As New FileStream(path & "\" & r_wsconect.uuid & ".txt", FileMode.Create, FileAccess.Write)
-      Dim writertxt As New StreamWriter(streamtxt)
-      writertxt.WriteLine(Convert.FromBase64String(r_wsconect.txtBase64))
-      writertxt.Close()
-    End If
+
+
+    Dim sw As New System.IO.StreamWriter(path & "\" & r_wsconect.uuid & ".xml", False, System.Text.Encoding.Default)
+    Dim b64 = New System.Text.ASCIIEncoding().GetString(Convert.FromBase64String(r_wsconect.xmlBase64))
+    sw.WriteLine(b64)
+    sw.Close()
 
     MessageBox.Show("Comprobante guardado en " & path & "\")
     Cursor.Current = Cursors.[Default]
@@ -182,10 +166,10 @@ Public Class Form1
 
     Dim timbra As New Timbrado()
     r_wsconect = timbra.Timbrar(layoutFile, reqt)
-    Dim stream As New FileStream(path & "\" & r_wsconect.uuid & ".xml", FileMode.Create, FileAccess.Write)
-    Dim writer As New StreamWriter(stream)
-    writer.WriteLine(Convert.FromBase64String(r_wsconect.xmlBase64))
-    writer.Close()
+    Dim sw As New System.IO.StreamWriter(path & "\" & r_wsconect.uuid & ".xml", False, System.Text.Encoding.Default)
+    Dim b64 = New System.Text.ASCIIEncoding().GetString(Convert.FromBase64String(r_wsconect.xmlBase64))
+    sw.WriteLine(b64)
+    sw.Close()
 
     MessageBox.Show("Comprobante guardado en " & path & "\")
     Cursor.Current = Cursors.[Default]
