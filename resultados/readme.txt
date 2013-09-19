@@ -1,0 +1,1 @@
+Carpeta para aloja los archivos XML y PDF
