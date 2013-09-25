@@ -174,31 +174,31 @@ Public Class Form1
 
     ' Crear instancia, para los para metros enviados a requestTimbradoCFDI
     Dim reqt As New requestTimbrarCFDI()
-        reqt.generarPDF = True
+    reqt.generarPDF = True
     Dim timbra As New Timbrado()
-        r_wsconect = timbra.Timbrar(layoutFile, reqt)
+    r_wsconect = timbra.Timbrar(layoutFile, reqt)
 
-        '' Guardar archivo XML
-        Dim byteXML As Byte() = System.Convert.FromBase64String(r_wsconect.xmlBase64)
-        Dim swxml As New IO.FileStream(path & "\" & r_wsconect.uuid & ".xml", IO.FileMode.Create)
-        swxml.Write(byteXML, 0, byteXML.Length)
-        swxml.Close()
+    '' Guardar archivo XML
+    Dim byteXML As Byte() = System.Convert.FromBase64String(r_wsconect.xmlBase64)
+    Dim swxml As New IO.FileStream(path & "\" & r_wsconect.uuid & ".xml", IO.FileMode.Create)
+    swxml.Write(byteXML, 0, byteXML.Length)
+    swxml.Close()
 
-        '' Guardar archivo PDF
-        If reqt.generarPDF Then
-            Dim bytePDF As Byte() = System.Convert.FromBase64String(r_wsconect.pdfBase64)
-            Dim swpdf As New IO.FileStream(path & "\" & r_wsconect.uuid & ".pdf", IO.FileMode.Create)
-            swpdf.Write(bytePDF, 0, bytePDF.Length)
-            swpdf.Close()
-        End If
+    '' Guardar archivo PDF
+    If reqt.generarPDF Then
+        Dim bytePDF As Byte() = System.Convert.FromBase64String(r_wsconect.pdfBase64)
+        Dim swpdf As New IO.FileStream(path & "\" & r_wsconect.uuid & ".pdf", IO.FileMode.Create)
+        swpdf.Write(bytePDF, 0, bytePDF.Length)
+        swpdf.Close()
+    End If
 
-        '' Guardar archivo CBB
-        If reqt.generarCBB Then
-            Dim byteCBB As Byte() = System.Convert.FromBase64String(r_wsconect.cbbBase64)
-            Dim swcbb As New IO.FileStream(path & "\" & r_wsconect.uuid & ".png", IO.FileMode.Create)
-            swcbb.Write(byteCBB, 0, byteCBB.Length)
-            swcbb.Close()
-        End If
+    '' Guardar archivo CBB
+    If reqt.generarCBB Then
+        Dim byteCBB As Byte() = System.Convert.FromBase64String(r_wsconect.cbbBase64)
+        Dim swcbb As New IO.FileStream(path & "\" & r_wsconect.uuid & ".png", IO.FileMode.Create)
+        swcbb.Write(byteCBB, 0, byteCBB.Length)
+        swcbb.Close()
+    End If
 
     MessageBox.Show("Comprobante guardado en " & path & "\")
     Cursor.Current = Cursors.[Default]
