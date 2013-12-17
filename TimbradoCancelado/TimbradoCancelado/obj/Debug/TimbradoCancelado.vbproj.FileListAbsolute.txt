@@ -26,3 +26,16 @@ C:\FacturacionModernaVB\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCa
 C:\FacturacionModernaVB\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Resources.resources
 C:\FacturacionModernaVB\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.vbproj.GenerateResource.Cache
 C:\FacturacionModernaVB\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.dll
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe.config
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.xml
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.pdb
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.xml
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.dll
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.dll
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.vbprojResolveAssemblyReference.cache
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Form1.resources
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Resources.resources
+C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.vbproj.GenerateResource.Cache

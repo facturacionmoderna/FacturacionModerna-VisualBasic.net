@@ -1,0 +1,11 @@
+C:\FacturacionModernaVBNet\ActivarCancelacion\ActivarCancelacion\bin\Debug\ActivarCancelacion.exe.config
+C:\FacturacionModernaVBNet\ActivarCancelacion\ActivarCancelacion\bin\Debug\ActivarCancelacion.exe
+C:\FacturacionModernaVBNet\ActivarCancelacion\ActivarCancelacion\bin\Debug\ActivarCancelacion.pdb
+C:\FacturacionModernaVBNet\ActivarCancelacion\ActivarCancelacion\bin\Debug\ActivarCancelacion.xml
+C:\FacturacionModernaVBNet\ActivarCancelacion\ActivarCancelacion\bin\Debug\WSConecFM.dll
+C:\FacturacionModernaVBNet\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.Form1.resources
+C:\FacturacionModernaVBNet\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.Resources.resources
+C:\FacturacionModernaVBNet\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.vbproj.GenerateResource.Cache
+C:\FacturacionModernaVBNet\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.exe
+C:\FacturacionModernaVBNet\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.xml
+C:\FacturacionModernaVBNet\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.pdb

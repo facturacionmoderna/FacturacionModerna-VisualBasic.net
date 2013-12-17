@@ -24,12 +24,12 @@ Public Class Form1
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ' Especificación de rutas especificas
-        Dim keyfile As String = "C:\FacturacionModernaVB\utilerias\certificados\20001000000200000192.key"
-        Dim certfile As String = "C:\FacturacionModernaVB\utilerias\certificados\20001000000200000192.cer"
+        Dim keyfile As String = "C:\FacturacionModernaVBNet\utilerias\certificados\20001000000200000192.key"
+        Dim certfile As String = "C:\FacturacionModernaVBNet\utilerias\certificados\20001000000200000192.cer"
         Dim password As String = "12345678a"
         Dim version As String = "3.2"
         Dim xmlfile As String = TextBox1.Text()
-        Dim path As String = "C:\FacturacionModernaVB\resultados"
+        Dim path As String = "C:\FacturacionModernaVBNet\resultados"
 
         Cursor.Current = Cursors.WaitCursor
         Dim r_comprobante As New Comprobante.Resultados()
