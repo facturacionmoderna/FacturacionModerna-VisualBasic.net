@@ -39,3 +39,15 @@ C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\Timbrad
 C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Form1.resources
 C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Resources.resources
 C:\FacturacionModernaVBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.vbproj.GenerateResource.Cache
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe.config
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.pdb
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.xml
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.dll
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.dll
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Form1.resources
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Resources.resources
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.vbproj.GenerateResource.Cache
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.xml
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasicNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb

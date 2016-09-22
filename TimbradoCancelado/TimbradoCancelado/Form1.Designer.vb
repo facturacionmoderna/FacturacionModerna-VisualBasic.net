@@ -63,7 +63,8 @@ Partial Class Form1
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(486, 20)
         Me.TextBox1.TabIndex = 3
-        Me.TextBox1.Text = "C:\FacturacionModernaVBNet\ejemplos\ejemploTimbradoXML.xml"
+        Me.TextBox1.Text = "C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasic" & _
+    "Net\ejemplos\ejemploTimbradoXML.xml"
         '
         'TextBox2
         '
@@ -71,7 +72,8 @@ Partial Class Form1
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(486, 20)
         Me.TextBox2.TabIndex = 4
-        Me.TextBox2.Text = "C:\FacturacionModernaVBNet\ejemplos\ejemploTimbradoLayout.ini"
+        Me.TextBox2.Text = "C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\VisualBasic" & _
+    "Net\ejemplos\ejemploTimbradoLayout.ini"
         '
         'TextBox3
         '

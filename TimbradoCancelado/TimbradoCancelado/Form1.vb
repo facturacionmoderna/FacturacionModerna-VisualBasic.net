@@ -1,6 +1,5 @@
 ﻿Imports System.Collections.Generic
 Imports System.ComponentModel
-Imports System.Data
 Imports System.Drawing
 Imports System.Linq
 Imports System.Text
@@ -24,81 +23,92 @@ Public Class Form1
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ' Especificación de rutas especificas
-        Dim keyfile As String = "C:\FacturacionModernaVBNet\utilerias\certificados\20001000000200000192.key"
-        Dim certfile As String = "C:\FacturacionModernaVBNet\utilerias\certificados\20001000000200000192.cer"
+        Dim currentPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+        Dim keyfile As String = currentPath + "\utilerias\certificados\20001000000200000192.key"
+        Dim certfile As String = currentPath + "\utilerias\certificados\20001000000200000192.cer"
         Dim password As String = "12345678a"
-        Dim version As String = "3.2"
+        Dim xsltPath As String = currentPath + "\utilerias\xslt3_2\cadenaoriginal_3_2.xslt"
         Dim xmlfile As String = TextBox1.Text()
-        Dim path As String = "C:\FacturacionModernaVBNet\resultados"
+        Dim path As String = currentPath + "\resultados"
+        Dim cert_b64 As String = ""
+        Dim cert_No As String = ""
+        Dim newXml As String = ""
+        Dim cadenaO As String = ""
+        Dim sello As String = ""
+
+        If Not System.IO.File.Exists(xmlfile) Then
+            MessageBox.Show("El archivo " + xmlfile + " No existe")
+            Environment.Exit(-1)
+        End If
 
         Cursor.Current = Cursors.WaitCursor
-        Dim r_comprobante As New Comprobante.Resultados()
+        Dim r_comprobante As New Comprobante.Utilidades()
         Dim r_wsconect As New WSConecFM.Resultados()
 
-        ' GENERAR CADENA ORIGINAL
-        '             * *    Los paramteros enviado son:
-        '             * *    1.- version del comprobante
-        '             * *    2.- xml (Puede ser una cadena o una ruta)
-        '             * Retorna la cadena original en r_comprobante.message
-        '            
-
-        Dim cadena As New Cadena()
-        r_comprobante = cadena.GeneraCadena(version, xmlfile)
-        If Not r_comprobante.status Then
-            MessageBox.Show(r_comprobante.message)
-            Close()
-        End If
-        Dim cadenaO As String = r_comprobante.message
-
-        ' GENERAR EL SELLO DEL COMPROBANTE
-        '             * *    Los parametros enviado son:
-        '             * *    1.- archivo de llave privada (.key)
-        '             * *    2.- Contraseña del archivo de llave privada
-        '             * *    3.- Cadena Original (Puede ser una cadena o una ruta)
-        '             * Retorna el sello en r_comprobante.message
-        '            
-
-        Dim sello As New Sello()
-        r_comprobante = sello.GeneraSello(keyfile, password, cadenaO)
-        If Not r_comprobante.status Then
-            MessageBox.Show(r_comprobante.message)
-            Close()
-        End If
-        Dim str_sello As String = r_comprobante.message
-
         '  OBTENER LA INFORMACION DEL CERTIFICADO
-        '             * *    Los parametros enviados son:
-        '             * *    1.- Ruta del certificado
-        '             * Retorna el numero de certificado en r_comprobante.ncert
-        '             * Retorna el certificado en base 64 en r_comprobante.message
-        '            
+        '  Los parametros enviados son:
+        '    1.- Ruta del certificado
 
-        r_comprobante = sello.obtenCertificado(certfile)
-        If Not r_comprobante.status Then
-            MessageBox.Show(r_comprobante.message)
-            Close()
+        If (r_comprobante.getInfoCertificate(certfile)) Then
+            cert_b64 = r_comprobante.getCertificate()
+            cert_No = r_comprobante.getCertificateNumber()
+        Else
+            MessageBox.Show(r_comprobante.getMessage())
+            Environment.Exit(-1)
         End If
-        Dim cert_b64 As String = r_comprobante.message
-        Dim cert_No As String = r_comprobante.ncert
+
+        '  AGREGAR INFORMACION DEL CERTIFICADO AL XML ANTES DE GENERAR LA CADENA ORIGINA
+        '   Los parametros enviados son:
+        '     1.- Xml (Puede ser una cadena o una ruta)
+        '     2.- Certificado codificado en base 64
+        '     3.- Numero de certificado
+        '   Retorna el XML Modificado
+
+        newXml = r_comprobante.addDigitalStamp(xmlfile, cert_b64, cert_No)
+        If (newXml.Equals("")) Then
+            MessageBox.Show(r_comprobante.getMessage())
+            Environment.Exit(-1)
+        End If
+
+        xmlfile = newXml
+
+
+        '  GENERAR CADENA ORIGINAL
+        '    Los paramteros enviado son:
+        '      1.- xml (Puede ser una cadena o una ruta)
+        '      2.- xslt (Ruta del archivo xslt, con el cual se construye la cadena original)
+        '   Retorna la cadena original
+
+        cadenaO = r_comprobante.createOriginalChain(xmlfile, xsltPath)
+        If (cadenaO.Equals("")) Then
+            MessageBox.Show(r_comprobante.getMessage())
+            Environment.Exit(-1)
+        End If
+
+        '  GENERAR EL SELLO DEL COMPROBANTE
+        '     * *    Los parametros enviado son:
+        '     * *    1.- archivo de llave privada (.key)
+        '     * *    2.- Contraseña del archivo de llave privada
+        '     * *    3.- Cadena Original (Puede ser una cadena o una ruta)
+        '     * Retorna el sello en r_comprobante.message
+
+        sello = r_comprobante.createDigitalStamp(keyfile, password, cadenaO)
+        If (sello.Equals("")) Then
+            MessageBox.Show(r_comprobante.getMessage())
+            Environment.Exit(-1)
+        End If
 
         '  AGREGAR LA INFORMACION DEL SELLO AL XML
-        '             * *    Los parametros enviados son:
-        '             * *    1.- Xml (Puede ser una cadena o una ruta)
-        '             * *    2.- Sello del comprobante
-        '             * *    3.- Certificado codificado en base 64
-        '             * *    4.- Numero de certificado
-        '             * Retorna el XML en r_comprobante.message
-        '            
+        '   * *    Los parametros enviados son:
+        '   * *    1.- Xml (Puede ser una cadena o una ruta)
+        '   * *    2.- Sello del comprobante
+        '   Retorna el XML Modificado
 
-        Dim objReader As New StreamReader(xmlfile, Encoding.UTF8)
-        xmlfile = objReader.ReadToEnd()
-        objReader.Close()
-        r_comprobante = sello.agregaSello(xmlfile, str_sello, cert_b64, cert_No)
-        If Not r_comprobante.status Then
-            MessageBox.Show(r_comprobante.message)
-            Application.[Exit]()
+        newXml = r_comprobante.addDigitalStamp(xmlfile, sello)
+        If (newXml.Equals("")) Then
+            MessageBox.Show(r_comprobante.getMessage())
+            Environment.Exit(-1)
         End If
-        xmlfile = r_comprobante.message
 
         '  CREAR LA CONFIGURACION DE CONEXION CON EL SERVICIO SOAP
         '             * *    Los parametros configurables son:
@@ -133,10 +143,10 @@ Public Class Form1
         '             
 
         Dim timbra As New Timbrado()
-        r_wsconect = timbra.Timbrar(xmlfile, reqt)
+        r_wsconect = timbra.Timbrar(newXml, reqt)
         If Not r_wsconect.status Then
             MessageBox.Show(r_wsconect.message)
-            Close()
+            Environment.Exit(-1)
         End If
 
         '' Guardar archivo XML
@@ -167,43 +177,54 @@ Public Class Form1
     End Sub
 
   Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-    Cursor.Current = Cursors.WaitCursor
-    Dim layoutFile As String = TextBox2.Text
-    Dim path As String = "C:\FacturacionModernaVB\resultados"
-    Dim r_wsconect As New WSConecFM.Resultados()
+        Cursor.Current = Cursors.WaitCursor
+        Dim currentPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+        Dim layoutFile As String = TextBox2.Text
+        Dim path As String = currentPath + "\resultados"
+        Dim r_wsconect As New WSConecFM.Resultados()
 
-    ' Crear instancia, para los para metros enviados a requestTimbradoCFDI
-    Dim reqt As New requestTimbrarCFDI()
-    reqt.generarPDF = True
-    Dim timbra As New Timbrado()
-    r_wsconect = timbra.Timbrar(layoutFile, reqt)
+        If Not System.IO.File.Exists(layoutFile) Then
+            MessageBox.Show("El archivo " + layoutFile + " No existe")
+            Environment.Exit(-1)
+        End If
 
-    '' Guardar archivo XML
-    Dim byteXML As Byte() = System.Convert.FromBase64String(r_wsconect.xmlBase64)
-    Dim swxml As New IO.FileStream(path & "\" & r_wsconect.uuid & ".xml", IO.FileMode.Create)
-    swxml.Write(byteXML, 0, byteXML.Length)
-    swxml.Close()
+        ' Crear instancia, para los para metros enviados a requestTimbradoCFDI
+        Dim reqt As New requestTimbrarCFDI()
+        reqt.generarPDF = True
+        Dim timbra As New Timbrado()
+        r_wsconect = timbra.Timbrar(layoutFile, reqt)
 
-    '' Guardar archivo PDF
-    If reqt.generarPDF Then
-        Dim bytePDF As Byte() = System.Convert.FromBase64String(r_wsconect.pdfBase64)
-        Dim swpdf As New IO.FileStream(path & "\" & r_wsconect.uuid & ".pdf", IO.FileMode.Create)
-        swpdf.Write(bytePDF, 0, bytePDF.Length)
-        swpdf.Close()
-    End If
+        If Not r_wsconect.status Then
+            MessageBox.Show(r_wsconect.message)
+            Environment.Exit(-1)
+        End If
 
-    '' Guardar archivo CBB
-    If reqt.generarCBB Then
-        Dim byteCBB As Byte() = System.Convert.FromBase64String(r_wsconect.cbbBase64)
-        Dim swcbb As New IO.FileStream(path & "\" & r_wsconect.uuid & ".png", IO.FileMode.Create)
-        swcbb.Write(byteCBB, 0, byteCBB.Length)
-        swcbb.Close()
-    End If
+        '' Guardar archivo XML
+        Dim byteXML As Byte() = System.Convert.FromBase64String(r_wsconect.xmlBase64)
+        Dim swxml As New IO.FileStream(path & "\" & r_wsconect.uuid & ".xml", IO.FileMode.Create)
+        swxml.Write(byteXML, 0, byteXML.Length)
+        swxml.Close()
 
-    MessageBox.Show("Comprobante guardado en " & path & "\")
-    Cursor.Current = Cursors.[Default]
-    Close()
-  End Sub
+        '' Guardar archivo PDF
+        If reqt.generarPDF Then
+            Dim bytePDF As Byte() = System.Convert.FromBase64String(r_wsconect.pdfBase64)
+            Dim swpdf As New IO.FileStream(path & "\" & r_wsconect.uuid & ".pdf", IO.FileMode.Create)
+            swpdf.Write(bytePDF, 0, bytePDF.Length)
+            swpdf.Close()
+        End If
+
+        '' Guardar archivo CBB
+        If reqt.generarCBB Then
+            Dim byteCBB As Byte() = System.Convert.FromBase64String(r_wsconect.cbbBase64)
+            Dim swcbb As New IO.FileStream(path & "\" & r_wsconect.uuid & ".png", IO.FileMode.Create)
+            swcbb.Write(byteCBB, 0, byteCBB.Length)
+            swcbb.Close()
+        End If
+
+        MessageBox.Show("Comprobante guardado en " & path & "\")
+        Cursor.Current = Cursors.[Default]
+        Close()
+    End Sub
 
   Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
     Cursor.Current = Cursors.WaitCursor
