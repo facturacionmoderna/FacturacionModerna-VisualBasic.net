@@ -27,7 +27,7 @@ Public Class Form1
         Dim keyfile = currentPath + "\\utilerias\\certificados\\20001000000300022759.key"
         Dim certfile = currentPath + "\\utilerias\\certificados\\20001000000300022759.cer"
         Dim password As String = "12345678a"
-        Dim xsltPath As String = currentPath + "\utilerias\xslt3_2\cadenaoriginal_3_2.xslt"
+        Dim xsltPath As String = currentPath + "\utilerias\xslt3_3\cadenaoriginal_3_3.xslt"
         Dim xmlfile As String = TextBox1.Text()
         Dim path As String = currentPath + "\resultados"
         Dim cert_b64 As String = ""

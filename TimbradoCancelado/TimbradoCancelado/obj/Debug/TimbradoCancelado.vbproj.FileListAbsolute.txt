@@ -57,10 +57,10 @@ C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\T
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.xml
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.dll
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\ConnectionWSFM.dll
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.vbprojResolveAssemblyReference.cache
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Form1.resources
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Resources.resources
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.vbproj.GenerateResource.Cache
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.xml
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
-C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_VBNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.vbprojResolveAssemblyReference.cache
